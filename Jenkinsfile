@@ -33,8 +33,7 @@ agent any
 stages {
 	stage('Get Source Code') {
 		steps {
-		git branch: 'master', url: 'https://github.example.com/myorg/myproject.git'
-			}
+			git branch: 'master', url: 'https://github.example.com/myorg/myproject.git'
 		}
 	}
 	stage('Build With maven') {
