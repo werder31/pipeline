@@ -25,6 +25,9 @@ agent any
 		GIT_SOURCE = "https://github.com/werdervg/${JOB_NAME}.git"
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 		Maven_OPTS = '-Dmaven.test.failure.ignore'
+		artifactory_user = 'publisheruser'
+		artifactory_password = 'pa@sswo2rd1'
+		artifactory_url = 'http://artifactory:8081/artifactory'
 	}
 	tools {
 		maven "${params.MavenVersion}"
@@ -53,10 +56,9 @@ stages {
 			script{
 				rtServer (
 					id: 'Artifactory-1',
-					url: 'http://artifactory:8081/artifactory',
-					username: 'publisheruser',
-					password: 'pa@sswo2rd1'
-//					credentialsId: 'firstrepo'
+					url: '${artifactory_url}',
+					username: '${artifactory_user}',
+					password: '${artifactory_password}'
 					)
 				rtUpload (
 					serverId: 'Artifactory-1',
