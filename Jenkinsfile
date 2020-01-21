@@ -41,7 +41,7 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
-				sh "cp -r ./$JOB_NAME/ ./"
+				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
