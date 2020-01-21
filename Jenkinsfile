@@ -33,11 +33,7 @@ agent any
 stages {
 	stage('Get Source Code') {
 		steps {
-			script {
-				sh 'echo "Get sources"'
-checkout([$class: 'GitSCM', branches: [[name: '*/master']],
-    userRemoteConfigs: [[url: 'https://github.com/werdervg/appn1.git']]])
-
+		git branch: 'master', url: 'https://github.example.com/myorg/myproject.git'
 			}
 		}
 	}
