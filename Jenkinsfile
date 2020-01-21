@@ -35,7 +35,9 @@ stages {
 		steps {
 			script {
 				sh 'echo "Get sources"'
-				sh 'git clone $GIT_SOURCE'
+				git(
+					url: '$GIT_SOURCE'
+				)
 			}
 		}
 	}
