@@ -56,9 +56,9 @@ stages {
 			script{
 				rtServer (
 					id: 'Artifactory-1',
-					url: ${artifactory_url},
-					username: ${artifactory_user},
-					password: ${artifactory_password}
+					url: "${artifactory_url}",
+					username: "${artifactory_user}",
+					password: "${artifactory_password}"
 					)
 				rtUpload (
 					serverId: 'Artifactory-1',
