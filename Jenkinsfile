@@ -41,8 +41,9 @@ stages {
 	stage('Build With maven') {
 		steps {
 			script {
+				sh "cp -r ./$JOB_NAME/ ./"
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn -Dmaven.test.failure.ignore -Ddir=${JOB_NAME} clean package"
+				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
@@ -133,8 +134,14 @@ stages {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
 			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
-			sh "rm -rf ./*"
 		}
 	}
 }
+	post { 
+		any {
+			node('any') {
+				deleteDir()
+			}
+		}
+	}
 }
