@@ -33,7 +33,9 @@ agent any
 stages {
 	stage('Get Source Code') {
 		steps {
-			git([url: 'https://github.com/werdervg/appn1.git', branch: 'master'])
+			script {
+				sh "git clone $GIT_SOURCE"
+			}
 		}
 	}
 	stage('Build With maven') {
