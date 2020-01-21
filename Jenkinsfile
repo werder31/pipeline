@@ -36,7 +36,7 @@ stages {
 			script {
 				sh 'echo "Get sources"'
 checkout([$class: 'GitSCM', branches: [[name: '*/master']],
-    userRemoteConfigs: [[url: 'https://github.com/werdervg/$JOB_NAME.git']]])
+    userRemoteConfigs: [[url: 'https://github.com/werdervg/appn1.git']]])
 
 			}
 		}
