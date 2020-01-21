@@ -33,8 +33,10 @@ agent any
 stages {
 	stage('Get Source Code') {
 		steps {
-			sh 'echo "Get sources"'
-			sh 'git clone $GIT_SOURCE'
+			script {
+				sh 'echo "Get sources"'
+				sh 'git clone $GIT_SOURCE'
+			}
 		}
 	}
 	stage('Build With maven') {
