@@ -22,6 +22,7 @@ agent any
 		registry = 'registry.domain.com:5000'
 		dockerImage = ''
 		APP_EXTPORT = '30100'
+		GIT_SOURCE = "https://github.com/werdervg/${JOB_NAME}.git"
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 		Maven_OPTS = '-Dmaven.test.failure.ignore'
 	}
@@ -30,11 +31,18 @@ agent any
 		jdk "${params.JavaVersion}"
 	}
 stages {
+	stage('Get Source Code') {
+		steps {
+			script {
+				sh "git clone $GIT_SOURCE "
+			}
+		}
+	}
 	stage('Build With maven') {
 		steps {
 			script {
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn $Maven_OPTS clean package"
+				sh "mvn $Maven_OPTS clean package -Ddir=./${JOB_NAME}"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
