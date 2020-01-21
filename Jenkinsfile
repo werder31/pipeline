@@ -46,7 +46,7 @@ stages {
 			script {
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn $Maven_OPTS -X clean package"
+				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
@@ -56,9 +56,9 @@ stages {
 			script{
 				rtServer (
 					id: 'Artifactory-1',
-					url: '$artifactory_url',
-					username: '$artifactory_user',
-					password: '$artifactory_password'
+					url: $artifactory_url,
+					username: $artifactory_user,
+					password: $artifactory_password
 					)
 				rtUpload (
 					serverId: 'Artifactory-1',
