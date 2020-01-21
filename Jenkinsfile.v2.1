@@ -1,0 +1,60 @@
+pipeline {
+agent none
+  parameters {
+    choice(
+        name: 'myParameter',
+        choices: "Par1\nPar2",
+        description: 'interesting stuff' )
+	}
+    stages {
+	
+        stage('Clone job 1') {
+		agent {
+			node {
+				label 'master'
+			}
+		}
+            when {
+                expression { params.myParameter == 'Par1' }
+            }
+            steps {
+				git branch: 'master',credentialsId: '123123123',url: 'https://gryniuk@github.com/gryniuk/job1.git' 
+				sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
+            }
+        }
+
+        stage('Clone job 2') {
+			agent {
+				label 'slave'
+			}
+            when {
+                expression { params.myParameter == 'Par2' }
+            }
+            steps {
+				git branch: 'master',credentialsId: '123123123',url: 'https://gryniuk@github.com/gryniuk/job2.git'
+                sh 'echo "Start building.."'
+				sh 'find ./ -type f -name "*.sh" -exec chmod +x {} \\; -exec {} \\;'
+            }
+        }
+        stage('ForTests') {
+			agent {
+				label 'slave'
+			}
+            steps {
+				build("ForTests")
+			}
+		}
+	}
+post { 
+	success {
+		node('master') {
+			deleteDir()
+		}
+		node('slave') {
+			deleteDir()
+		}
+	}
+
+}
+}
