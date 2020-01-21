@@ -138,10 +138,9 @@ stages {
 	}
 }
 	post { 
-		any {
-			node('any') {
-				deleteDir()
-			}
-		}
+        always {
+            echo 'One way or another, I have finished'
+            deleteDir() /* clean up our workspace */
+        }
 	}
 }
