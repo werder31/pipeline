@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    container_name: JOB_NAME_app
+    #image: REGISTRY_NAME/JOB_NAME:latest
+    #build: .
+    restart: always
+    ports:
+      - "APP_EXTPORT:8080"
+    environment:
+      - KEY1=VALUE1
+      - KEY2=VALUE2
+      - KEY3=VALUE3
+      - KEY4=VALUE4
+    volumes:
+      - ./persistent/storage1:/opt/data1
+      - ./persistent/storage1/config.yaml:/opt/config/config.yaml
