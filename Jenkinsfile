@@ -34,7 +34,7 @@ stages {
 	stage('Get Source Code') {
 		steps {
 			script {
-				sh "git clone $GIT_SOURCE "
+				sh "git clone $GIT_SOURCE"
 			}
 		}
 	}
@@ -42,7 +42,7 @@ stages {
 		steps {
 			script {
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn $Maven_OPTS clean package -Ddir=./${JOB_NAME}"
+				sh "mvn $Maven_OPTS -Ddir=./${JOB_NAME} clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
