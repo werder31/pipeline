@@ -42,7 +42,7 @@ stages {
 		steps {
 			script {
 				sh "mv Dockerfile_$JavaVersion Dockerfile"
-				sh "mvn $Maven_OPTS -Ddir=./${JOB_NAME} clean package"
+				sh "mvn -Dmaven.test.failure.ignore -Ddir=${JOB_NAME} clean package"
 				sh 'cp target/*.jar app.jar'
 			}
 		}
