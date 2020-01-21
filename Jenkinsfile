@@ -21,7 +21,7 @@ agent any
 		PROD = '192.168.23.7'
 		registry = 'registry.domain.com:5000'
 		dockerImage = ''
-		GIT_SOURCE = "https://github.com/werdervg/"${JOB_NAME}".git"
+		GIT_SOURCE = "https://github.com/werdervg/${JOB_NAME}.git"
 		APP_EXTPORT = '30100'
 		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
 		Maven_OPTS = '-Dmaven.test.failure.ignore'
