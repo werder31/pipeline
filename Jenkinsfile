@@ -101,7 +101,6 @@ stages {
 			}
 		}
 		steps {
-			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO STAGE"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
 		}
@@ -114,7 +113,6 @@ stages {
 			}
 		}
 		steps {
-			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO TEST"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
 		}
@@ -127,7 +125,6 @@ stages {
 			}
 		}
 		steps {
-			sh "echo DEPLOIIIIIIIIIIIIIIIG  TO PROD"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$PROD:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$PROD 'docker-compose up --build -d'"
 		}
