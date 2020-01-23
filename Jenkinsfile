@@ -45,8 +45,8 @@ stages {
 			}	
 		}
 		steps {
-			sh "echo ERROR: ${TomcatVersion} does not support ${JavaVersion}"
-			exit 1
+			sh 'echo "ERROR: ${TomcatVersion} does not support ${JavaVersion}" && exit 1'
+			
 		}
 	}
 	stage('Get Source Code') {
