@@ -120,13 +120,10 @@ stages {
 	}
 	stage('Deploing image to TEST ENV') {
 		when { 
-			allOf { 
-				expression { params.Deploing == 'YES' }; 
-				expression { params.ENVIRONMENT == 'TEST' }
-			}
+			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}; 
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${${params.ENVIRONMENT}}:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
 		}
 	}
