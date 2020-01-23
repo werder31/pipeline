@@ -48,7 +48,7 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh 'echo "${"${ENVIRONMENT}"}"'
+				sh 'echo ${ENVIRONMENT}'
 				sh "exit 1"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
@@ -101,33 +101,14 @@ stages {
 			}
 		}
 	}
-	stage('Deploing image to STAGE ENV') {
+	stage('Deploing image to ${ENVIRONMENT} ENV') {
 		when { 
 				expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'STAGE' }
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${${params.ENVIRONMENT}}:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@${${params.ENVIRONMENT}} 'docker-compose up --build -d'"
 		}
-	}
-	stage('Deploing image to TEST ENV') {
-		when { 
-			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}
-		}
-		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
-		}
-	}
-	stage('Deploing image to PROD ENV') {
-		when { 
-			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'PROD' }
-		}
-		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$PROD:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@$PROD 'docker-compose up --build -d'"
-		}
-	}
 	stage('Remove Unused docker image') {
 		steps{
 			sh "docker rmi -f $registry/$JOB_NAME:latest"
