@@ -105,7 +105,7 @@ stages {
 		}
 		steps {
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${env."${params.ENVIRONMENT}"}:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@'${${params.ENVIRONMENT}}' 'docker-compose up --build -d'"
+			sh "ssh -o StrictHostKeyChecking=no root@${env."${params.ENVIRONMENT}"} 'docker-compose up --build -d'"
 		}
 	}
 	stage('Remove Unused docker image') {
