@@ -113,7 +113,7 @@ stages {
 			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}
 		}
 		steps {
-		    sh "ENVIRONMENT = ${ENVIRONMENT}"
+		    sh "env ENVIRONMENT = ${ENVIRONMENT}"
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${ENVIRONMENT}:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$ENVIRONMENT 'docker-compose up --build -d'"
 		}
