@@ -48,8 +48,6 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh 'echo ${ENVIRONMENT}'
-				sh "exit 1"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
