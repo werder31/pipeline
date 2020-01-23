@@ -123,8 +123,8 @@ stages {
 			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}; 
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@"${"${ENVIRONMENT}"}":/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@"${"${ENVIRONMENT}"}" 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@"${${ENVIRONMENT}}":/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@"${${ENVIRONMENT}}" 'docker-compose up --build -d'"
 		}
 	}
 	stage('Deploing image to PROD ENV') {
