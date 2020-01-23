@@ -5,7 +5,12 @@ node{
 	}
 }
 pipeline {
-agent any
+//agent any
+	agent {
+		docker {
+			registryUrl 'https://registry.domain.com:5000'
+		}
+	}
 	environment {
 		STAGE = '192.168.23.7'
 		TEST = '192.168.23.7'
@@ -90,12 +95,13 @@ stages {
 				sh "sed -i s/REGISTRY_NAME/${registry}/g docker-compose.yaml"
 				sh "sed -i s/BUILD_NUMBER/${BUILD_NUMBER}/g docker-compose.yaml"
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
-				sh "docker login https://$registry"
-				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
-				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
-				sh "docker push $registry/$JOB_NAME:latest"
-				sh "sed -i s/build/#build/g docker-compose.yaml"
-				sh "sed -i s/#image/image/g docker-compose.yaml"
+				dockerImage.push()
+//				sh "docker login https://$registry"
+//				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
+//				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
+//				sh "docker push $registry/$JOB_NAME:latest"
+//				sh "sed -i s/build/#build/g docker-compose.yaml"
+//				sh "sed -i s/#image/image/g docker-compose.yaml"
 			}
 		}
 	}
