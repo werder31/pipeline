@@ -36,6 +36,28 @@ agent any
 		jdk "${params.JavaVersion}"
 	}
 stages {
+	stage('Version Java&Tomcat compatibility check') {
+		when { 
+			anyOf {
+				allOf { 
+					expression { params.JavaVersion == 'Java7' }; 
+					expression { params.ENVIRONMENT == 'Tomcat9' }
+				}
+				allOf { 
+					expression { params.JavaVersion == 'Java8' }; 
+					expression { params.ENVIRONMENT == 'Tomcat7' }
+				}			
+				allOf { 
+					expression { params.JavaVersion == 'Java9' }; 
+					expression { params.ENVIRONMENT == 'Tomcat7' }
+				}
+			}	
+		}
+		steps {
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
+		}
+	}
 	stage('Get Source Code') {
 		steps {
 			script {
