@@ -19,7 +19,7 @@ RUN rm -rf /opt/apache-tomcat-8.5.50.tar.gz
 ENV JAVA_HOME /usr/lib/jvm/java-1.9.0-openjdk/
 RUN export JAVA_HOME
 
-COPY app.jar /opt/apache-tomcat-8.5.50/webapps/
+#COPY app.jar /opt/apache-tomcat-8.5.50/webapps/
 
 EXPOSE 8080
 CMD /etc/init.d/td-agent start && /opt/apache-tomcat-8.5.50/bin/catalina.sh run
