@@ -104,8 +104,8 @@ stages {
 				expression { params.Deploing == 'YES' }
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${${params.ENVIRONMENT}}:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@${${params.ENVIRONMENT}} 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@'${${params.ENVIRONMENT}}':/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@'${${params.ENVIRONMENT}}' 'docker-compose up --build -d'"
 		}
 	stage('Remove Unused docker image') {
 		steps{
