@@ -13,12 +13,12 @@ RUN wget https://www.apache.org/dist/tomcat/tomcat-8/v8.5.50/bin/apache-tomcat-8
 
 RUN tar -xf /opt/apache-tomcat-8.5.50.tar.gz -C /opt/
 RUN rm -rf /opt/apache-tomcat-8.5.50.tar.gz
-RUN rm -rf /opt/apache-tomcat-8.5.50/webapps/*
+#RUN rm -rf /opt/apache-tomcat-8.5.50/webapps/*
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk/
 RUN export JAVA_HOME
 
-COPY sample.war /opt/apache-tomcat-8.5.50/webapps/
+#COPY sample.war /opt/apache-tomcat-8.5.50/webapps/
 
 EXPOSE 8080
 CMD /etc/init.d/td-agent start && /opt/apache-tomcat-8.5.50/bin/catalina.sh run
