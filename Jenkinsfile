@@ -15,18 +15,7 @@ agent any
 
 	}
 	environment {
-		STAGE = '192.168.23.7'
-		TEST = '192.168.23.7'
-		PROD = '192.168.23.7'
-		registry = 'registry.domain.com:5000'
-		dockerImage = ''
-		APP_EXTPORT = '30100'
-		GIT_SOURCE = "https://github.com/werdervg/${JOB_NAME}.git"
-		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
-		Maven_OPTS = '-Dmaven.test.failure.ignore'
-		artifactory_user = 'publisheruser'
-		artifactory_password = 'pa@sswo2rd1'
-		artifactory_url = 'http://artifactory:8081/artifactory'
+		sh (script: 'ls ./vars', returnStdout: true).trim()
 	}
 	tools {
 		maven "${params.MavenVersion}"
