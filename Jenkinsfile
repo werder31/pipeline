@@ -101,10 +101,7 @@ stages {
 	}
 	stage('Deploing image to STAGE ENV') {
 		when { 
-			allOf { 
-				expression { params.Deploing == 'YES' }; 
-				expression { params.ENVIRONMENT == 'STAGE' }
-			}
+				expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'STAGE' }
 		}
 		steps {
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
@@ -123,9 +120,7 @@ stages {
 	}
 	stage('Deploing image to PROD ENV') {
 		when { 
-			allOf { 
-				expression { params.Deploing == 'YES' && expression { params.ENVIRONMENT == 'PROD' }
-			}
+			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'PROD' }
 		}
 		steps {
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$PROD:/root/"
