@@ -95,8 +95,8 @@ stages {
 //				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
 //				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
 //				sh "docker push $registry/$JOB_NAME:latest"
-//				sh "sed -i s/build/#build/g docker-compose.yaml"
-//				sh "sed -i s/#image/image/g docker-compose.yaml"
+				sh "sed -i s/build/#build/g docker-compose.yaml"
+				sh "sed -i s/#image/image/g docker-compose.yaml"
 			}
 		}
 	}
