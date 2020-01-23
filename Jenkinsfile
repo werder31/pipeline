@@ -54,8 +54,7 @@ stages {
 			}	
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$STAGE:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@$STAGE 'docker-compose up --build -d'"
+			sh "echo ${TomcatVersion} does not support ${JavaVersion}"
 		}
 	}
 	stage('Get Source Code') {
