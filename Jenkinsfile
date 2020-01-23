@@ -9,8 +9,8 @@ agent any
 	parameters {
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
-		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
-		choice(name: 'ENVIRONMENT', choices: "STAGE\nTEST\nPROD", description: 'Please select ENV server for deploy you APP')
+		choice(name: 'Deploing', choices: "YES\nNO", description: 'Option for allow/decline deploy to ENV')
+		choice(name: 'ENVIRONMENT', choices: "TEST\nSTAGE\nPROD", description: 'Please select ENV server for deploy you APP')
 		choice(name: 'TomcatVersion', choices: "Tomcat7\nTomcat8\nTomcat9", description: 'Please select ENV server for deploy you APP')
 
 	}
@@ -48,7 +48,7 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh "echo $"${params.ENVIRONMENT}""
+				sh "echo ${params.ENVIRONMENT}"
 				sh "exit 1"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
