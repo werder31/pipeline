@@ -48,7 +48,7 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh 'scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@"{env."${params.ENVIRONMENT}"}":/root/'
+				sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${params.ENVIRONMENT}:/root/"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
