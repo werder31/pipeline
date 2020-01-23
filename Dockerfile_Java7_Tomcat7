@@ -13,12 +13,12 @@ RUN wget https://www.apache.org/dist/tomcat/tomcat-7/v7.0.99/bin/apache-tomcat-7
 
 RUN tar -xf /opt/apache-tomcat-7.0.99.tar.gz -C /opt/
 RUN rm -rf /opt/apache-tomcat-7.0.99.tar.gz
-RUN rm -rf /opt/apache-tomcat-7.0.99/webapps/*
+#RUN rm -rf /opt/apache-tomcat-7.0.99/webapps/*
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk/
 RUN export JAVA_HOME
 
-COPY sample.war /opt/apache-tomcat-7.0.99/webapps/
+#COPY sample.war /opt/apache-tomcat-7.0.99/webapps/
 
 EXPOSE 8080
 CMD /etc/init.d/td-agent start && /opt/apache-tomcat-7.0.99/bin/catalina.sh run
