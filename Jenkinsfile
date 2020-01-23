@@ -3,9 +3,6 @@ node{
 		Maven_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.tasks.Maven_MavenInstallation/', returnStdout: true).trim()
 		JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
 	}
-//	stage ("Get JAVA version") {
-//		JAVA_Version = sh (script: 'ls /var/jenkins_home/tools/hudson.model.JDK/', returnStdout: true).trim()
-//	}
 }
 pipeline {
 agent any
@@ -48,16 +45,17 @@ stages {
 			sh 'echo "ERROR: ${TomcatVersion} does not support ${JavaVersion}" && exit 1'
 		}
 	}
-	stage('Get Source Code') {
+//	stage('Get Source Code') {
+//		steps {
+//			script {
+//				sh "git clone $GIT_SOURCE"
+//			}
+//		}
+//	}
+	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
 				sh "git clone $GIT_SOURCE"
-			}
-		}
-	}
-	stage('Build With maven') {
-		steps {
-			script {
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
