@@ -49,7 +49,6 @@ stages {
 		steps {
 			script {
 				sh 'println'(env."${params.ENVIRONMENT}")''
-				sh "exit 1"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
@@ -106,7 +105,7 @@ stages {
 				expression { params.Deploing == 'YES' }
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@'${${params.ENVIRONMENT}}':/root/"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@'(env."${params.ENVIRONMENT}")':/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@'${${params.ENVIRONMENT}}' 'docker-compose up --build -d'"
 		}
 	}
