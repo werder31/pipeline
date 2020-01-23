@@ -15,7 +15,6 @@ agent any
 
 	}
 	environment {
-		ENV_SRV = '$ENVIRONMENT'
 		STAGE = '192.168.23.7'
 		TEST = '192.168.23.7'
 		PROD = '192.168.23.7'
@@ -49,9 +48,9 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh "echo $ENV_SRV"
-				sh "git clone $GIT_SOURCE"
+				sh echo $"${params.ENVIRONMENT}"
 				sh "exit 1"
+				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
@@ -116,9 +115,8 @@ stages {
 			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}
 		}
 		steps {
-		    sh "ENVIRONMENT = ${ENVIRONMENT} && export ENVIRONMENT"
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$ENVIRONMENT:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@$ENVIRONMENT 'docker-compose up --build -d'"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$TEST:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$TEST 'docker-compose up --build -d'"
 		}
 	}
 	stage('Deploing image to PROD ENV') {
