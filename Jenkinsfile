@@ -6,6 +6,20 @@ node{
 }
 pipeline {
 agent any
+	environment {
+		STAGE = '192.168.23.7'
+		TEST = '192.168.23.7'
+		PROD = '192.168.23.7'
+		registry = 'registry.domain.com:5000'
+		dockerImage = ''
+		APP_EXTPORT = '30100'
+		GIT_SOURCE = "https://github.com/werdervg/${JOB_NAME}.git"
+		replace_registry_path='$registry/$JOB_NAME:v$BUILD_NUMBER'
+		Maven_OPTS = '-Dmaven.test.failure.ignore'
+		artifactory_user = 'publisheruser'
+		artifactory_password = 'pa@sswo2rd1'
+		artifactory_url = 'http://artifactory:8081/artifactory'
+	}
 	parameters {
 		choice(name: 'MavenVersion', choices: "${Maven_Version}", description: 'On this step you need select Maven Version')
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
@@ -13,9 +27,6 @@ agent any
 		choice(name: 'ENVIRONMENT', choices: "TEST\nSTAGE\nPROD", description: 'Please select ENV server for deploy you APP')
 		choice(name: 'TomcatVersion', choices: "Tomcat7\nTomcat8\nTomcat9", description: 'Please select ENV server for deploy you APP')
 
-	}
-	environment {
-		sh (script: 'ls ./vars', returnStdout: true).trim()
 	}
 	tools {
 		maven "${params.MavenVersion}"
