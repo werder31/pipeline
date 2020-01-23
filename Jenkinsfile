@@ -114,7 +114,7 @@ stages {
 		}
 		steps {
 		    sh "export ENVIRONMENT = ${ENVIRONMENT}"
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${ENVIRONMENT}:/root/"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$ENVIRONMENT:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@$ENVIRONMENT 'docker-compose up --build -d'"
 		}
 	}
