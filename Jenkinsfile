@@ -49,7 +49,7 @@ stages {
 		steps {
 			script {
 				sh '''
-					scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@"${env."${params.ENVIRONMENT}"}":/root/
+					scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${env."${params.ENVIRONMENT}"}:/root/
 				'''
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
