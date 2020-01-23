@@ -39,18 +39,9 @@ stages {
 	stage('Version Java&Tomcat compatibility check') {
 		when { 
 			anyOf {
-				allOf { 
-					expression { params.JavaVersion == 'Java7' }; 
-					expression { params.ENVIRONMENT == 'Tomcat9' }
-				}
-				allOf { 
-					expression { params.JavaVersion == 'Java8' }; 
-					expression { params.ENVIRONMENT == 'Tomcat7' }
-				}			
-				allOf { 
-					expression { params.JavaVersion == 'Java9' }; 
-					expression { params.ENVIRONMENT == 'Tomcat7' }
-				}
+				expression { params.JavaVersion == 'Java7' && params.ENVIRONMENT == 'Tomcat9' };
+				expression { params.JavaVersion == 'Java8' && params.ENVIRONMENT == 'Tomcat7' };
+				expression { params.JavaVersion == 'Java9' && params.ENVIRONMENT == 'Tomcat7' }
 			}	
 		}
 		steps {
