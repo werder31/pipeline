@@ -45,13 +45,6 @@ stages {
 			sh 'echo "ERROR: ${TomcatVersion} does not support ${JavaVersion}" && exit 1'
 		}
 	}
-//	stage('Get Source Code') {
-//		steps {
-//			script {
-//				sh "git clone $GIT_SOURCE"
-//			}
-//		}
-//	}
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
@@ -120,18 +113,18 @@ stages {
 	}
 	stage('Deploing image to TEST ENV') {
 		when { 
-			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}; 
+			expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'TEST'}
 		}
 		steps {
-			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${ENVIRONMENT}:/root/"
-			sh "ssh -o StrictHostKeyChecking=no root@${ENVIRONMENT} 'docker-compose up --build -d'"
+		    sh "ENVIRONMENT = ${ENVIRONMENT}"
+			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@$ENVIRONMENT:/root/"
+			sh "ssh -o StrictHostKeyChecking=no root@$ENVIRONMENT 'docker-compose up --build -d'"
 		}
 	}
 	stage('Deploing image to PROD ENV') {
 		when { 
 			allOf { 
-				expression { params.Deploing == 'YES' }; 
-				expression { params.ENVIRONMENT == 'PROD' }
+				expression { params.Deploing == 'YES' && expression { params.ENVIRONMENT == 'PROD' }
 			}
 		}
 		steps {
