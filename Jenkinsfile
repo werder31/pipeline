@@ -89,12 +89,10 @@ stages {
 				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"
 				sh "sed -i s/REGISTRY_NAME/${registry}/g docker-compose.yaml"
 				sh "sed -i s/BUILD_NUMBER/${BUILD_NUMBER}/g docker-compose.yaml"
+				
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
 				dockerImage.push()
-//				sh "docker login https://$registry"
-//				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
-//				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
-//				sh "docker push $registry/$JOB_NAME:latest"
+
 				sh "sed -i s/build/#build/g docker-compose.yaml"
 				sh "sed -i s/#image/image/g docker-compose.yaml"
 			}
@@ -107,12 +105,6 @@ stages {
 		steps {
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${env."${params.ENVIRONMENT}"}:/root/"
 			sh "ssh -o StrictHostKeyChecking=no root@${env."${params.ENVIRONMENT}"} 'docker-compose up --build -d'"
-		}
-	}
-	stage('Remove Unused docker image') {
-		steps{
-			sh "docker rmi -f $registry/$JOB_NAME:latest"
-			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
 		}
 	}
 }
