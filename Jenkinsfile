@@ -103,7 +103,7 @@ stages {
 	}
 	stage('Deploing image to ${ENVIRONMENT} ENV') {
 		when { 
-				expression { params.Deploing == 'YES' && params.ENVIRONMENT == 'STAGE' }
+				expression { params.Deploing == 'YES' }
 		}
 		steps {
 			sh "scp -o StrictHostKeyChecking=no ./docker-compose.yaml root@${${params.ENVIRONMENT}}:/root/"
