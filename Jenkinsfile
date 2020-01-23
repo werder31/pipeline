@@ -107,6 +107,11 @@ stages {
 			sh "ssh -o StrictHostKeyChecking=no root@${env."${params.ENVIRONMENT}"} 'docker-compose up --build -d'"
 		}
 	}
+	stage('Remove Unused docker image') {
+		steps{
+			sh "docker rmi -f $registry/$JOB_NAME:v$BUILD_NUMBER"
+		}
+	}
 }
 	post {
 		always {
