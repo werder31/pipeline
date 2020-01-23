@@ -48,7 +48,7 @@ stages {
 	stage('Get Source Code && Build With maven') {
 		steps {
 			script {
-				sh "println(env."${params.ENVIRONMENT}")"
+				sh 'println'(env."${params.ENVIRONMENT}")''
 				sh "exit 1"
 				sh "git clone $GIT_SOURCE"
 				sh "cp -r ./$JOB_NAME/* ./"
