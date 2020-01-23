@@ -5,12 +5,7 @@ node{
 	}
 }
 pipeline {
-//agent any
-	agent {
-		docker {
-			registryUrl 'https://registry.domain.com:5000'
-		}
-	}
+	agent any
 	environment {
 		STAGE = '192.168.23.7'
 		TEST = '192.168.23.7'
