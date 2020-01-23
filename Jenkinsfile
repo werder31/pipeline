@@ -98,6 +98,7 @@ stages {
 				sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
 				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"
 				sh "sed -i s/REGISTRY_NAME/${registry}/g docker-compose.yaml"
+				sh "sed -i s/BUILD_NUMBER/${BUILD_NUMBER}/g docker-compose.yaml"
 				dockerImage = docker.build registry + "/$JOB_NAME" + ":v$BUILD_NUMBER"
 				sh "docker login https://$registry"
 				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
