@@ -99,7 +99,7 @@ stages {
 			}
 		}
 	}
-	stage('Deploing image to ${ENVIRONMENT} ENV') {
+	stage('Deploing image to ENV') {
 		when { 
 				expression { params.Deploing == 'YES' }
 		}
