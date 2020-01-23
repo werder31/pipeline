@@ -47,7 +47,7 @@ stages {
 		steps {
 			script {
 				sh "cp -r ./$JOB_NAME/* ./"
-				sh "mv Dockerfile_$JavaVersion_$TomcatVersion Dockerfile"
+				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
 			}
