@@ -51,6 +51,7 @@ stages {
 			script {
 				sh "echo $ENV_SRV"
 				sh "git clone $GIT_SOURCE"
+				sh "exit 1"
 				sh "cp -r ./$JOB_NAME/* ./"
 				sh "mv Dockerfile_${JavaVersion}_${TomcatVersion} Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
