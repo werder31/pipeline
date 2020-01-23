@@ -1,0 +1,24 @@
+FROM centos:7
+
+RUN touch /etc/yum.repos.d/td.repo
+RUN echo "[treasuredata]" >> /etc/yum.repos.d/td.repo
+RUN echo "name=TreasureData" >> /etc/yum.repos.d/td.repo
+RUN echo "baseurl=http://packages.treasuredata.com/3/redhat/\$releasever/\$basearch" >> /etc/yum.repos.d/td.repo
+RUN echo "gpgcheck=0" >> /etc/yum.repos.d/td.repo
+RUN echo "gpgkey=https://packages.treasuredata.com/GPG-KEY-td-agent" >> /etc/yum.repos.d/td.repo
+RUN yum install -y td-agent nano java-1.7.0-openjdk java-1.7.0-openjdk-devel wget
+
+WORKDIR /opt/
+RUN wget https://www.apache.org/dist/tomcat/tomcat-7/v7.0.99/bin/apache-tomcat-7.0.99.tar.gz
+
+RUN tar -xf /opt/apache-tomcat-7.0.99.tar.gz -C /opt/
+RUN rm -rf /opt/apache-tomcat-7.0.99.tar.gz
+RUN rm -rf /opt/apache-tomcat-7.0.99/webapps/*
+
+ENV JAVA_HOME /usr/lib/jvm/java-1.7.0-openjdk/
+RUN export JAVA_HOME
+
+COPY sample.war /opt/apache-tomcat-7.0.99/webapps/
+
+EXPOSE 8080
+CMD /etc/init.d/td-agent start && /opt/apache-tomcat-7.0.99/bin/catalina.sh run
