@@ -14,6 +14,8 @@ agent any
 		choice(name: 'JavaVersion', choices: "${JAVA_Version}", description: 'On this step you need select JAVA Version')
 		choice(name: 'Deploing', choices: "NO\nYES", description: 'Option for allow/decline deploy to ENV')
 		choice(name: 'ENVIRONMENT', choices: "STAGE\nTEST\nPROD", description: 'Please select ENV server for deploy you APP')
+		choice(name: 'TomcatVersion', choices: "Tomcat7\nTomcat8\nTomcat9", description: 'Please select ENV server for deploy you APP')
+
 	}
 	environment {
 		STAGE = '192.168.23.7'
@@ -45,7 +47,7 @@ stages {
 		steps {
 			script {
 				sh "cp -r ./$JOB_NAME/* ./"
-				sh "mv Dockerfile_$JavaVersion Dockerfile"
+				sh "mv Dockerfile_$JavaVersion_$TomcatVersion Dockerfile"
 				sh "mvn $Maven_OPTS clean package"
 				sh 'cp target/*.jar app.jar'
 			}
