@@ -54,8 +54,7 @@ stages {
 services:
   app:
     container_name: JOB_NAME_app
-    #image: REGISTRY_NAME/JOB_NAME:vBUILD_NUMBER
-    #build: .
+    image: REGISTRY_NAME/JOB_NAME:vBUILD_NUMBER
     restart: always
     ports:
       - "APP_EXTPORT:8080"
@@ -119,7 +118,6 @@ CMD /opt/apache-tomcat/bin/catalina.sh run">Dockerfile
 	stage('Building image and preparing compose file') {
 		steps{
 			script {
-				sh "sed -i s/#build/build/g docker-compose.yaml"
 				sh "sed -i s/JOB_NAME/${JOB_NAME}/g docker-compose.yaml"
 				sh "sed -i s/APP_NAME/${JOB_NAME}/g docker-compose.yaml"
 				sh "sed -i s/APP_EXTPORT/${APP_EXTPORT}/g docker-compose.yaml"
@@ -130,8 +128,6 @@ CMD /opt/apache-tomcat/bin/catalina.sh run">Dockerfile
 				sh "docker push $registry/$JOB_NAME:v$BUILD_NUMBER"
 				sh "docker tag $registry/$JOB_NAME:v$BUILD_NUMBER $registry/$JOB_NAME:latest"
 				sh "docker push $registry/$JOB_NAME:latest"
-				sh "sed -i s/build/#build/g docker-compose.yaml"
-				sh "sed -i s/#image/image/g docker-compose.yaml"
 			}
 		}
 	}
@@ -154,7 +150,7 @@ CMD /opt/apache-tomcat/bin/catalina.sh run">Dockerfile
 	post {
 		always {
 			echo 'One way or another, I have finished'
-			deleteDir() /* clean up our workspace */
+//			deleteDir() /* clean up our workspace */
 		}
 	}
 }
